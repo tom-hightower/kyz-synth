@@ -1,0 +1,7 @@
+.ControlBox {
+    border: 5px solid #444a57;
+    margin: 1%;
+    min-height: 80vh;
+    height: 100%;
+    display: grid;
+}
