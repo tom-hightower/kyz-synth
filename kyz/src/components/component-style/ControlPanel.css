@@ -4,4 +4,9 @@
     min-height: 80vh;
     height: 100%;
     display: grid;
+    text-align: center;
+}
+
+.border {
+    border: 1px solid #444a57;
 }

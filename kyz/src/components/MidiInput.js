@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
 import ControlPanel from './ControlPanel';
 
+var WaveShapes = {
+    SINE: 'sine',
+    SAW: 'sawtooth',
+    TRIANGLE: 'triangle',
+    SQUARE: 'square'
+};
+
 export default class MidiInput extends Component {
     constructor(props) {
         super(props);
-        //this.checkNotes = setInterval(this.updateNotes, 10)
         this.activeNotes = [];
         this.ac = new AudioContext();
         this.state = {
             inputs: '',
             outputs: '',
+            controlState: '',
         };
     }
 
@@ -24,6 +31,9 @@ export default class MidiInput extends Component {
             inputs: midiAccess.inputs,
             outputs: midiAccess.outputs,
         }, () => {
+            if (this.state.inputs.values().length > 0) {
+                this.props.changeParentState("connected", true);
+            }
             for (let input of this.state.inputs.values()) {
                 input.onmidimessage = this.getMIDIMessage;
             }
@@ -54,27 +64,34 @@ export default class MidiInput extends Component {
         console.log("Could not access devices")
     }
 
-    frequencyFromPitch = (pitch) => {
-        return Math.pow(2, ((pitch - 69) / 12)) * 440;
+    frequencyFromPitch = (pitch, osc = 1) => {
+        return (Math.pow(2, ((pitch - 69 + (this.state.controlState[`osc${osc}`].octave * 12)) / 12)) * 440) + ((this.state.controlState[`osc${osc}`].pitch * 100) - 50);
     }
 
     startOscillate = (note) => {
         if (this.activeNotes[note]) {
-            this.activeNotes[note].oscillator.type = "sawtooth";
+            this.activeNotes[note].oscillator.frequency.value = this.frequencyFromPitch(note);
+            this.activeNotes[note].oscillator.type = this.state.controlState.osc1.wave;
             console.log(this.activeNotes[note].oscillator)
             this.activeNotes[note].oscillator.connect(this.ac.destination)
         }
     }
 
     stopOscillate = (note) => {
-        this.activeNotes[note].oscillator.disconnect(this.ac.destination)
+        this.activeNotes[note].oscillator.disconnect()
         console.log(this.activeNotes[note].oscillator)
+    }
+
+    setValue = (newValue, field) => {
+        this.setState({
+            [field]: newValue,
+        });
     }
 
     render() {
         return (
             <div>
-                <ControlPanel />
+                <ControlPanel updateParent={this.setValue} waves={WaveShapes} />
             </div>
         );
     }

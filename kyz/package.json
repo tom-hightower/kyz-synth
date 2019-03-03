@@ -3,14 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "rc-slider": "^8.6.6",
     "react": "^16.8.3",
-    "react-canvas-knob": "^0.5.0",
+    "react-circular-input": "^0.1.4",
     "react-dom": "^16.8.3",
     "react-flexbox-grid": "^2.1.2",
-    "react-scripts": "2.1.5",
-    "react-transform-catch-errors": "^1.0.2",
-    "react-transform-hmr": "^1.0.4",
-    "redbox-react": "^1.6.0"
+    "react-scripts": "2.1.5"
   },
   "scripts": {
     "start": "react-scripts start",
