@@ -8,6 +8,14 @@ var WaveShapes = {
     SQUARE: 'square'
 };
 
+var FilterTypes = {
+    LOWPASS: 'lowpass',
+    HIGHPASS: 'highpass',
+    BANDPASS: 'bandpass',
+    NOTCH: 'notch',
+    ALLPASS: 'allpass'
+}
+
 export default class MidiInput extends Component {
     constructor(props) {
         super(props);
@@ -17,6 +25,7 @@ export default class MidiInput extends Component {
         this.gain2 = this.ac.createGain();
         this.noiseGain = this.ac.createGain();
         this.noiseBuffer = this.ac.createBufferSource();
+        this.filter = this.ac.createBiquadFilter();
         this.state = {
             inputs: '',
             outputs: '',
@@ -27,9 +36,22 @@ export default class MidiInput extends Component {
     componentDidMount() {
         navigator.requestMIDIAccess()
             .then(this.onMIDISuccess, this.onMIDIFailure);
-        this.gain1.connect(this.ac.destination);
-        this.gain2.connect(this.ac.destination);
-        this.noiseGain.connect(this.ac.destination);
+        this.gain1.connect(this.filter);
+        this.gain2.connect(this.filter);
+        this.noiseGain.connect(this.filter);
+        this.filter.connect(this.ac.destination);
+
+        this.noiseBufferInit();
+        this.filterInit();
+    }
+
+    filterInit() {
+        this.filter.type = "lowpass";
+        this.filter.frequency.setValueAtTime(0, this.ac.currentTime);
+        this.filter.Q.setValueAtTime(0, this.ac.currentTime);
+    }
+
+    noiseBufferInit() {
         let bufferSize = 4 * this.ac.sampleRate,
             whiteNoise = this.ac.createBuffer(1, bufferSize, this.ac.sampleRate),
             output = whiteNoise.getChannelData(0);
@@ -46,8 +68,10 @@ export default class MidiInput extends Component {
             inputs: midiAccess.inputs,
             outputs: midiAccess.outputs,
         }, () => {
-            if (this.state.inputs.values().length > 0) {
+            if (this.state.inputs.size > 0) {
                 this.props.changeParentState("connected", true);
+            } else {
+                this.props.changeParentState("connected", false);
             }
             for (let input of this.state.inputs.values()) {
                 input.onmidimessage = this.getMIDIMessage;
@@ -88,7 +112,6 @@ export default class MidiInput extends Component {
 
     startOscillate = (note) => {
         if (this.activeNotes[note]) {
-            this.activeNotes[note].on = true;
             this.startOscillatorInd(note, 1);
             this.startOscillatorInd(note, 2);
             this.noiseBuffer.connect(this.noiseGain);
@@ -105,7 +128,7 @@ export default class MidiInput extends Component {
         this.activeNotes[note].oscillator1.disconnect();
         this.activeNotes[note].oscillator2.disconnect();
         if (!this.activeNotes.some((item) => { return item.on === true; })) {
-            this.noiseBuffer.disconnect();   
+            this.noiseBuffer.disconnect();
         }
     }
 
@@ -113,16 +136,20 @@ export default class MidiInput extends Component {
         this.setState({
             [field]: newValue,
         }, () => {
-            this.gain1.gain.value = this.state.controlState.mix1;
-            this.gain2.gain.value = this.state.controlState.mix2;
-            this.noiseGain.gain.value = this.state.controlState.noise * 0.05;
+            
+            this.gain1.gain.value = this.state.controlState.mixer.mix1;
+            this.gain2.gain.value = this.state.controlState.mixer.mix2;
+            this.noiseGain.gain.value = this.state.controlState.mixer.noise * .1;
+            this.filter.frequency.setValueAtTime((this.state.controlState.filter.cutoff * ((this.ac.sampleRate / 2) - 10)) + 10, this.ac.currentTime);
+            this.filter.Q.setValueAtTime((this.state.controlState.filter.res * 500), this.ac.currentTime);
+            this.filter.type = this.state.controlState.filter.filterType;
         });
     }
 
     render() {
         return (
             <div>
-                <ControlPanel updateParent={this.setValue} waves={WaveShapes} />
+                <ControlPanel updateParent={this.setValue} waves={WaveShapes} filters={FilterTypes} />
             </div>
         );
     }

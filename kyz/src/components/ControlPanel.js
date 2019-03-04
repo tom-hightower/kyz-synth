@@ -3,6 +3,7 @@ import { Grid, Row, Col } from 'react-flexbox-grid';
 import './component-style/ControlPanel.css';
 import Oscillator from './ControlPanel_Blocks/Oscillator';
 import Mixer from './ControlPanel_Blocks/Mixer';
+import Filter from './ControlPanel_Blocks/Filter';
 
 export default class ControlPanel extends Component {
     constructor(props) {
@@ -20,9 +21,16 @@ export default class ControlPanel extends Component {
                 wave: this.props.waves.SINE,
                 octave: 0,
             },
-            mix1: 0.5,
-            mix2: 0.5,
-            noise: 0,
+            mixer: {
+                mix1: 0.5,
+                mix2: 0.5,
+                noise: 0,
+            },
+            filter: {
+                cutoff: 0,
+                res: 0,
+                filterType: this.props.filters.LOWPASS
+            }
         };
     }
 
@@ -47,14 +55,16 @@ export default class ControlPanel extends Component {
                             <Oscillator id={1} waves={this.props.waves} updateParent={this.setValue} />
                         </Col>
                         <Col xs={6} sm={6} md={4} lg={4}>
-                            <Row className="border">
+                            <Row className="border-med">
                                 <Oscillator id={2} waves={this.props.waves} updateParent={this.setValue} small />
                             </Row>
-                            <Row className="border">
+                            <Row className="border-mini">
                                 <Mixer updateParent={this.setValue} />
                             </Row>
                         </Col>
-                        <Col xs={6} sm={3} md={2.5} lg={2.5} className="border">thing 3</Col>
+                        <Col xs={6} sm={3} md={2.5} lg={2.5} className="border">
+                            <Filter updateParent={this.setValue} filters={this.props.filters} />
+                        </Col>
                         <Col xs={6} sm={3} md={2.5} lg={2.5} className="border">thing 4</Col>
                     </Row>
                     <Row style={{ minHeight: 350 }}>

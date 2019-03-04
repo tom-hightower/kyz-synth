@@ -9,4 +9,15 @@
 
 .border {
     border: 1px solid #444a57;
+    min-height: 95%;
+}
+
+.border-med {
+    border: 1px solid #444a57;
+    height: 65%;
+}
+
+.border-mini {
+    border: 1px solid #444a57;
+    height: 35%;
 }

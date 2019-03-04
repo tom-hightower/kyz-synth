@@ -69,19 +69,19 @@ export default class Oscillator extends Component {
                     />
                 </div>
                 <div style={{ marginLeft: 100 }}>
-                    <CircularInput value={this.state.pitch} onChange={(val) => this.setValue(val, "pitch")} radius={20}>
-                        <CircularTrack style={{ strokeWidth: 10 }} />
-                        <CircularProgress style={{ strokeWidth: 10 }} />
-                        <CircularThumb r={10} />
+                    <CircularInput value={this.state.pitch} onChange={(val) => this.setValue(val, "pitch")} radius={25}>
+                        <CircularTrack style={{ strokeWidth: 8 }} />
+                        <CircularProgress style={{ strokeWidth: 8 }} />
+                        <CircularThumb r={8} />
                     </CircularInput>
-                    <h5>Detuning</h5>
+                    <h5 style={{ marginTop: 10, }}>Detuning</h5>
                     <br />
-                    <CircularInput value={this.state.shape} onChange={(val) => this.setValue(val, "shape")} radius={20}>
-                        <CircularTrack style={{ strokeWidth: 10 }} />
-                        <CircularProgress style={{ strokeWidth: 10 }} />
-                        <CircularThumb r={10} />
+                    <CircularInput value={this.state.shape} onChange={(val) => this.setValue(val, "shape")} radius={25}>
+                        <CircularTrack style={{ strokeWidth: 8 }} />
+                        <CircularProgress style={{ strokeWidth: 8 }} />
+                        <CircularThumb r={8} />
                     </CircularInput>
-                    <h5>Shape</h5>
+                    <h5 style={{ marginTop: 10, }}>Shape</h5>
                 </div>
             </div>
         );
@@ -101,18 +101,18 @@ export default class Oscillator extends Component {
                     />
                 </div>
                 <div style={{ marginLeft: 10 }}>
-                    <CircularInput value={this.state.pitch} onChange={(val) => this.setValue(val, "pitch")} radius={20}>
-                        <CircularTrack style={{ strokeWidth: 10 }} />
-                        <CircularProgress style={{ strokeWidth: 10 }} />
-                        <CircularThumb r={10} />
+                    <CircularInput value={this.state.pitch} onChange={(val) => this.setValue(val, "pitch")} radius={25}>
+                        <CircularTrack style={{ strokeWidth: 8 }} />
+                        <CircularProgress style={{ strokeWidth: 8 }} />
+                        <CircularThumb r={8} />
                     </CircularInput>
                     <h5>Detuning</h5>
                 </div>
                 <div style={{ marginLeft: 10 }}>
-                    <CircularInput value={this.state.shape} onChange={(val) => this.setValue(val, "shape")} radius={20}>
-                        <CircularTrack style={{ strokeWidth: 10 }} />
-                        <CircularProgress style={{ strokeWidth: 10 }} />
-                        <CircularThumb r={10} />
+                    <CircularInput value={this.state.shape} onChange={(val) => this.setValue(val, "shape")} radius={25}>
+                        <CircularTrack style={{ strokeWidth: 8 }} />
+                        <CircularProgress style={{ strokeWidth: 8 }} />
+                        <CircularThumb r={8} />
                     </CircularInput>
                     <h5>Shape</h5>
                 </div>
