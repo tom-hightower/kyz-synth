@@ -1,0 +1,9 @@
+to-do list
+** TODO: General Style
+** TODO: Icons for wave sliders
+** TODO: Knob fix (start/end points and direction)
+* TODO: Fix Noise buffer node
+* TODO: Velocity response
+* TODO: Problem with crash when gain nodes are adjusted during note 
+* TODO: LFO implementation
+*** TODO: Visualizers?

@@ -5,6 +5,7 @@ import Oscillator from './ControlPanel_Blocks/Oscillator';
 import Mixer from './ControlPanel_Blocks/Mixer';
 import Filter from './ControlPanel_Blocks/Filter';
 import LFO from './ControlPanel_Blocks/LFO';
+import Envelope from './ControlPanel_Blocks/Envelope';
 
 export default class ControlPanel extends Component {
     constructor(props) {
@@ -36,6 +37,13 @@ export default class ControlPanel extends Component {
                 rate: 0,
                 int: 0,
                 target: this.props.lfoTargets.FILTER
+            },
+            envelope: {
+                attack: 0,
+                decay: 511,
+                sustain: 511,
+                release: 0,
+                volume: 0.5,
             }
         };
     }
@@ -57,10 +65,10 @@ export default class ControlPanel extends Component {
             <div className="ControlBox">
                 <Grid fluid>
                     <Row style={{ minHeight: 350 }}>
-                        <Col xs={12} sm={3} md={3} lg={3} className="border" >
+                        <Col xs={12} sm={12} md={5} lg={3} className="border" >
                             <Oscillator id={1} waves={this.props.waves} updateParent={this.setValue} />
                         </Col>
-                        <Col xs={6} sm={6} md={4} lg={4}>
+                        <Col xs={12} sm={12} md={7} lg={4}>
                             <Row className="border-med">
                                 <Oscillator id={2} waves={this.props.waves} updateParent={this.setValue} small />
                             </Row>
@@ -68,15 +76,17 @@ export default class ControlPanel extends Component {
                                 <Mixer updateParent={this.setValue} />
                             </Row>
                         </Col>
-                        <Col xs={6} sm={3} md={2.5} lg={2.5} className="border">
+                        <Col xs={12} sm={6} md={6} lg={2.5} className="border">
                             <Filter updateParent={this.setValue} filters={this.props.filters} />
                         </Col>
-                        <Col xs={6} sm={3} md={2.5} lg={2.5} className="border">
+                        <Col xs={12} sm={6} md={6} lg={2.5} className="border">
                             <LFO updateParent={this.setValue} lfoTargets={this.props.lfoTargets} />
                         </Col>
                     </Row>
                     <Row style={{ minHeight: 350 }}>
-                        <Col xs={12} sm={12} md={8} lg={6} className="border"> thing </Col>
+                        <Col xs={12} sm={12} md={8} lg={6} className="border">
+                            <Envelope updateParent={this.setValue} />
+                        </Col>
                         <Col xs={0} sm={0} md={4} lg={6} className="border">thing 2</Col>
                     </Row>
                 </Grid>
