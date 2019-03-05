@@ -43,8 +43,9 @@ export default class Oscillator extends Component {
     render() {
 
         const largeComponent = (
-            <div style={{ display: "flex" }}>
-                <div>
+            <div style={{ display: "flex", width: "90%", margin: "auto", paddingTop: "5%" }}>
+                <div style={{ width: "30%", padding: "0 5%", marginTop: "-5%" }} >
+                    <h5 style={{ margin: 0, marginBottom: 10 }}>Octave:</h5>
                     <Slider
                         min={-2}
                         defaultValue={0}
@@ -52,11 +53,12 @@ export default class Oscillator extends Component {
                         step={1}
                         marks={{ "-2": "-2", "-1": "-1", "0": "0", "1": "1" }}
                         vertical
-                        style={{ minHeight: 200, marginLeft: 20 }}
+                        style={{ minHeight: 200 }}
                         onChange={(val) => this.setValue(val, "octave")}
                     />
                 </div>
-                <div>
+                <div style={{ width: "30%", padding: "0 5%", marginTop: "-5%" }}>
+                    <h5 style={{ margin: 0, marginBottom: 10 }}>Wave:</h5>
                     <Slider
                         min={0}
                         max={3}
@@ -64,18 +66,17 @@ export default class Oscillator extends Component {
                         step={1}
                         marks={{ 0: 0, 1: 1, 2: 2, 3: 3 }}
                         vertical
-                        style={{ minHeight: 200, marginLeft: 75 }}
+                        style={{ minHeight: 200 }}
                         onChange={(val) => this.setValue(val, "wave")}
                     />
                 </div>
-                <div style={{ marginLeft: 100 }}>
+                <div style={{ width: "30%", display: "block", padding: "0 20%" }}>
                     <CircularInput value={this.state.pitch} onChange={(val) => this.setValue(val, "pitch")} radius={25}>
                         <CircularTrack style={{ strokeWidth: 8 }} />
                         <CircularProgress style={{ strokeWidth: 8 }} />
                         <CircularThumb r={8} />
                     </CircularInput>
-                    <h5 style={{ marginTop: 10, }}>Detuning</h5>
-                    <br />
+                    <h5 style={{ marginTop: 10, marginBottom: "60%" }}>Detuning</h5>
                     <CircularInput value={this.state.shape} onChange={(val) => this.setValue(val, "shape")} radius={25}>
                         <CircularTrack style={{ strokeWidth: 8 }} />
                         <CircularProgress style={{ strokeWidth: 8 }} />
@@ -87,8 +88,9 @@ export default class Oscillator extends Component {
         );
 
         const smallComponent = (
-            <div style={{ display: "flex" }}>
-                <div>
+            <div style={{ display: "flex", height: "90%" }}>
+                <div style={{ width: "20%", height: "90%", margin: "auto", marginLeft: "15%", marginBottom: "5%" }}>
+                    <h5 style={{ margin: 0, marginBottom: 10 }}>Octave:</h5>
                     <Slider
                         min={-2}
                         defaultValue={0}
@@ -96,39 +98,44 @@ export default class Oscillator extends Component {
                         step={1}
                         marks={{ "-2": "-2", "-1": "-1", "0": "0", "1": "1" }}
                         vertical
-                        style={{ minHeight: 200, marginLeft: 20 }}
                         onChange={(val) => this.setValue(val, "octave")}
                     />
                 </div>
-                <div style={{ marginLeft: 10 }}>
-                    <CircularInput value={this.state.pitch} onChange={(val) => this.setValue(val, "pitch")} radius={25}>
-                        <CircularTrack style={{ strokeWidth: 8 }} />
-                        <CircularProgress style={{ strokeWidth: 8 }} />
-                        <CircularThumb r={8} />
-                    </CircularInput>
-                    <h5>Detuning</h5>
-                </div>
-                <div style={{ marginLeft: 10 }}>
-                    <CircularInput value={this.state.shape} onChange={(val) => this.setValue(val, "shape")} radius={25}>
-                        <CircularTrack style={{ strokeWidth: 8 }} />
-                        <CircularProgress style={{ strokeWidth: 8 }} />
-                        <CircularThumb r={8} />
-                    </CircularInput>
-                    <h5>Shape</h5>
-                </div>
-                <div style={{ width: "100%" }}>
-                    <Slider
-                        min={0}
-                        max={3}
-                        defaultValue={0}
-                        step={1}
-                        marks={{ 0: 0, 1: 1, 2: 2, 3: 3 }}
-                        style={{ minWidth: 200, marginLeft: 75 }}
-                        onChange={(val) => this.setValue(val, "wave")}
-                    />
+                <div style={{ width: "80%", display: "block", margin: "auto", marginLeft: "25%" }}>
+                    <div style={{ display: "flex" }}>
+                        <div style={{ width: "50%" }} >
+                            <CircularInput value={this.state.pitch} onChange={(val) => this.setValue(val, "pitch")} radius={25}>
+                                <CircularTrack style={{ strokeWidth: 8 }} />
+                                <CircularProgress style={{ strokeWidth: 8 }} />
+                                <CircularThumb r={8} />
+                            </CircularInput>
+                            <h5 style={{ marginTop: 10, }}>Detuning</h5>
+                        </div>
+                        <div style={{ width: "50%" }}>
+                            <CircularInput value={this.state.shape} onChange={(val) => this.setValue(val, "shape")} radius={25}>
+                                <CircularTrack style={{ strokeWidth: 8 }} />
+                                <CircularProgress style={{ strokeWidth: 8 }} />
+                                <CircularThumb r={8} />
+                            </CircularInput>
+                            <h5 style={{ marginTop: 10, }}>Shape</h5>
+                        </div>
+                    </div>
+                    <div style={{ width: "100%", display: "flex" }}>
+                        <h5>Wave:</h5>
+                        <Slider
+                            min={0}
+                            max={3}
+                            defaultValue={0}
+                            step={1}
+                            marks={{ 0: 0, 1: 1, 2: 2, 3: 3 }}
+                            style={{ minWidth: 200, margin: "auto", marginLeft: 15 }}
+                            onChange={(val) => this.setValue(val, "wave")}
+                        />
+                    </div>
                 </div>
             </div>
         );
+        
 
         return (
             <>

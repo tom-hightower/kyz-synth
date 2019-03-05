@@ -3,7 +3,7 @@ import { CircularInput, CircularTrack, CircularProgress, CircularThumb } from 'r
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
-export default class Mixer extends Component {
+export default class Filter extends Component {
     constructor(props) {
         super(props);
         this.state = {

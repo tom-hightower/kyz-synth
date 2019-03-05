@@ -16,6 +16,13 @@ var FilterTypes = {
     ALLPASS: 'allpass'
 }
 
+var LFOTarget = {
+    FILTER: 'cutoff',
+    PITCH: 'detune',
+    SHAPE: 'shape',
+    OUTPUT: 'volume'
+}
+
 export default class MidiInput extends Component {
     constructor(props) {
         super(props);
@@ -136,7 +143,7 @@ export default class MidiInput extends Component {
         this.setState({
             [field]: newValue,
         }, () => {
-            
+
             this.gain1.gain.value = this.state.controlState.mixer.mix1;
             this.gain2.gain.value = this.state.controlState.mixer.mix2;
             this.noiseGain.gain.value = this.state.controlState.mixer.noise * .1;
@@ -149,7 +156,8 @@ export default class MidiInput extends Component {
     render() {
         return (
             <div>
-                <ControlPanel updateParent={this.setValue} waves={WaveShapes} filters={FilterTypes} />
+                <button onClick={() => { this.ac.resume() }}>thing</button>
+                <ControlPanel updateParent={this.setValue} waves={WaveShapes} filters={FilterTypes} lfoTargets={LFOTarget} />
             </div>
         );
     }

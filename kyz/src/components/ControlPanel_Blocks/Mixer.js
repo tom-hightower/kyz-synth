@@ -36,7 +36,7 @@ export default class Mixer extends Component {
             <>
                 <h3>Mixer</h3>
                 <div style={{ width: "90%", display: "flex", height: "90%" }}>
-                    <div>
+                    <div style={{ width: "25%", margin: "auto", marginTop: "4%" }} >
                         <CircularInput value={this.state.noise} onChange={(val) => this.setValue(val, "noise")} radius={25}>
                             <CircularTrack style={{ strokeWidth: 8 }} />
                             <CircularProgress style={{ strokeWidth: 8 }} />
@@ -44,7 +44,7 @@ export default class Mixer extends Component {
                         </CircularInput>
                         <h5 style={{ marginTop: 10, }}>Noise</h5>
                     </div>
-                    <div style={{ minWidth: "60%", marginTop: 40 }}>
+                    <div style={{ width: "70%", margin: "auto", display: "block", marginTop: "8%" }}>
                         <Slider
                             min={0}
                             max={1}
@@ -52,7 +52,9 @@ export default class Mixer extends Component {
                             step={0.1}
                             marks={{ 0: '', 0.1: '', 0.2: '', 0.3: '', 0.4: '', 0.5: '', 0.6: '', 0.7: '', 0.8: '', 0.9: '', 1: '' }}
                             onChange={(val) => this.setMix(val)}
+                            style={{ minWidth: 200, margin: "auto" }}
                         />
+                        <h5 style={{ marginTop: 5 }} >Balance</h5>
                     </div>
                 </div>
             </>

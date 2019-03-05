@@ -4,6 +4,7 @@ import './component-style/ControlPanel.css';
 import Oscillator from './ControlPanel_Blocks/Oscillator';
 import Mixer from './ControlPanel_Blocks/Mixer';
 import Filter from './ControlPanel_Blocks/Filter';
+import LFO from './ControlPanel_Blocks/LFO';
 
 export default class ControlPanel extends Component {
     constructor(props) {
@@ -30,6 +31,11 @@ export default class ControlPanel extends Component {
                 cutoff: 0,
                 res: 0,
                 filterType: this.props.filters.LOWPASS
+            },
+            lfo: {
+                rate: 0,
+                int: 0,
+                target: this.props.lfoTargets.FILTER
             }
         };
     }
@@ -65,10 +71,12 @@ export default class ControlPanel extends Component {
                         <Col xs={6} sm={3} md={2.5} lg={2.5} className="border">
                             <Filter updateParent={this.setValue} filters={this.props.filters} />
                         </Col>
-                        <Col xs={6} sm={3} md={2.5} lg={2.5} className="border">thing 4</Col>
+                        <Col xs={6} sm={3} md={2.5} lg={2.5} className="border">
+                            <LFO updateParent={this.setValue} lfoTargets={this.props.lfoTargets} />
+                        </Col>
                     </Row>
                     <Row style={{ minHeight: 350 }}>
-                        <Col xs={12} sm={12} md={8} lg={6} className="border">thing</Col>
+                        <Col xs={12} sm={12} md={8} lg={6} className="border"> thing </Col>
                         <Col xs={0} sm={0} md={4} lg={6} className="border">thing 2</Col>
                     </Row>
                 </Grid>
