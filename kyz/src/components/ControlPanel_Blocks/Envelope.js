@@ -21,7 +21,7 @@ export default class Envelope extends Component {
             decay: 511,
             sustain: 511,
             release: 0,
-            volume: 0.5,
+            volume: 0.25,
         };
     }
 
@@ -34,6 +34,8 @@ export default class Envelope extends Component {
     }
 
     render() {
+
+        const volStepValue = (v) => Math.round(v * 200) / 200;
 
         return (
             <>
@@ -89,10 +91,13 @@ export default class Envelope extends Component {
                     </div>
                     <div style={{ width: "60%" }}>
                         <div>
-                            <CircularInput value={this.state.volume} onChange={(val) => this.setValue(val, "volume")} radius={40}>
+                            <CircularInput value={volStepValue(this.state.volume) * 2} onChange={(val) => this.setValue(volStepValue(val) / 2, "volume")} radius={40}>
                                 <CircularTrack style={{ strokeWidth: 10 }} />
                                 <CircularProgress style={{ strokeWidth: 10 }} />
-                                <CircularThumb r={13} />
+                                <CircularThumb r={10} />
+                                <text x={40} y={40} textAnchor="middle" dy="0.3em" fontWeight="bold">
+                                    {Math.round(volStepValue(this.state.volume) * 2 * 100)}%
+		                        </text>
                             </CircularInput>
                             <h5 style={{ marginTop: 5, }}>Volume</h5>
                         </div>

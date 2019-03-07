@@ -6,6 +6,7 @@ import Mixer from './ControlPanel_Blocks/Mixer';
 import Filter from './ControlPanel_Blocks/Filter';
 import LFO from './ControlPanel_Blocks/LFO';
 import Envelope from './ControlPanel_Blocks/Envelope';
+import AudioVisualizer from './ControlPanel_Blocks/AudioVisualizer';
 
 export default class ControlPanel extends Component {
     constructor(props) {
@@ -87,7 +88,9 @@ export default class ControlPanel extends Component {
                         <Col xs={12} sm={12} md={8} lg={6} className="border">
                             <Envelope updateParent={this.setValue} />
                         </Col>
-                        <Col xs={0} sm={0} md={4} lg={6} className="border">thing 2</Col>
+                        <Col xs={0} sm={0} md={4} lg={6} className="border">
+                            { this.props.audioData ? <AudioVisualizer audioData={this.props.audioData} /> : '' }
+                        </Col>
                     </Row>
                 </Grid>
             </div>

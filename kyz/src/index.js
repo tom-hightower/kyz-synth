@@ -5,7 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 if (navigator.requestMIDIAccess) {
-ReactDOM.render(<App />, document.getElementById('root'));
+    ReactDOM.render(<App />, document.getElementById('root'));
 } else {
     ReactDOM.render(<div>Sorry, this browser is unsupported</div>, document.getElementById('root'));
 }

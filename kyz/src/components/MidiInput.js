@@ -34,24 +34,43 @@ export default class MidiInput extends Component {
         this.noiseBuffer = this.ac.createBufferSource();
         this.filter = this.ac.createBiquadFilter();
         this.masterGain = this.ac.createGain();
+        this.analyzerNode = this.ac.createAnalyser();
+        this.mergerNode = this.ac.createChannelMerger(3);
         this.state = {
             inputs: '',
             outputs: '',
             controlState: '',
+            audioData: '',
         };
     }
 
     componentDidMount() {
         navigator.requestMIDIAccess()
             .then(this.onMIDISuccess, this.onMIDIFailure);
+        this.dataArray = new Uint8Array(this.analyzerNode.frequencyBinCount);
         this.gain1.connect(this.filter);
         this.gain2.connect(this.filter);
         this.noiseGain.connect(this.filter);
         this.filter.connect(this.masterGain);
+        this.filter.connect(this.analyzerNode);
         this.masterGain.connect(this.ac.destination);
 
         this.noiseBufferInit();
         this.filterInit();
+        this.rafId = requestAnimationFrame(() => {this.tick()});
+    }
+
+    componentWillUnmount() {
+        cancelAnimationFrame(this.rafId);
+        this.masterGain.disconnect();
+    }
+
+    tick() {
+        this.analyzerNode.getByteTimeDomainData(this.dataArray);
+        this.setState({
+            audioData: this.dataArray,
+        });
+        this.rafId = requestAnimationFrame(() => {this.tick()});
     }
 
     filterInit() {
@@ -131,7 +150,7 @@ export default class MidiInput extends Component {
 
     startOscillatorInd = (note, oscInd, adsr) => {
         let osc = this.ac.createOscillator();
-        osc.frequency.value = this.frequencyFromPitch(note, 2);
+        osc.frequency.value = this.frequencyFromPitch(note, oscInd);
         osc.type = this.state.controlState[`osc${oscInd}`].wave;
         let adsrGain = this.ac.createGain();
         osc.connect(adsrGain);
@@ -164,7 +183,7 @@ export default class MidiInput extends Component {
         return (
             <div>
                 <button onClick={() => { this.ac.resume() }}>thing</button>
-                <ControlPanel updateParent={this.setValue} waves={WaveShapes} filters={FilterTypes} lfoTargets={LFOTarget} />
+                <ControlPanel updateParent={this.setValue} waves={WaveShapes} filters={FilterTypes} lfoTargets={LFOTarget} audioData={this.state.audioData} />
             </div>
         );
     }
