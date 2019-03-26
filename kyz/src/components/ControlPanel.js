@@ -15,7 +15,7 @@ export default class ControlPanel extends Component {
             osc1: {
                 pitch: 0.5,
                 shape: 0.5,
-                wave: this.props.waves.SINE,
+                wave: this.props.waves.TRIANGLE,
                 octave: 0,
             },
             osc2: {
@@ -32,7 +32,7 @@ export default class ControlPanel extends Component {
             filter: {
                 cutoff: 0,
                 res: 0,
-                filterType: this.props.filters.LOWPASS
+                filterType: this.props.filters.HIGHPASS
             },
             lfo: {
                 rate: 0,

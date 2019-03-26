@@ -9,7 +9,7 @@ export default class Filter extends Component {
         this.state = {
             cutoff: 0,
             res: 0,
-            filterType: this.props.filters.LOWPASS
+            filterType: this.props.filters.HIGHPASS,
         };
     }
 
@@ -76,7 +76,7 @@ export default class Filter extends Component {
                         <Slider
                             min={0}
                             max={4}
-                            defaultValue={0}
+                            defaultValue={1}
                             step={1}
                             marks={{
                                 0: this.props.filters.LOWPASS,

@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { CircularInput, CircularTrack, CircularProgress, CircularThumb } from 'react-circular-input';
 import Slider from 'rc-slider';
+import sine from '../../resources/img/sine.svg';
+import square from '../../resources/img/square.svg';
+import triangle from '../../resources/img/triangle.svg';
+import saw from '../../resources/img/saw.svg';
 import 'rc-slider/assets/index.css';
 
 export default class Oscillator extends Component {
@@ -9,7 +13,6 @@ export default class Oscillator extends Component {
         this.state = {
             pitch: 0.5,
             shape: 0.5,
-            wave: this.props.waves.SINE,
             octave: 0,
         };
     }
@@ -41,6 +44,20 @@ export default class Oscillator extends Component {
     }
 
     render() {
+        const waveShape = (wave) => {
+            switch(wave) {
+                case 'sine':
+                    return <img src={sine} alt="sine" style={{ width:"200%" }} />;
+                case 'saw':
+                return <img src={saw} alt="sine" style={{ width:"200%" }} />;
+                case 'triangle':
+                return <img src={triangle} alt="sine" style={{ width:"200%" }} />
+                case 'square':
+                return <img src={square} alt="sine" style={{ width:"200px" }} />;
+                default:
+                    return '0';
+            }
+        }
 
         const largeComponent = (
             <div style={{ display: "flex", width: "90%", margin: "auto", paddingTop: "5%" }}>
@@ -62,9 +79,9 @@ export default class Oscillator extends Component {
                     <Slider
                         min={0}
                         max={3}
-                        defaultValue={0}
+                        defaultValue={2}
                         step={1}
-                        marks={{ 0: 0, 1: 1, 2: 2, 3: 3 }}
+                        marks={{ 0: waveShape('sine'), 1: waveShape('saw'), 2: waveShape('triangle'), 3: waveShape('square') }}
                         vertical
                         style={{ minHeight: 200 }}
                         onChange={(val) => this.setValue(val, "wave")}

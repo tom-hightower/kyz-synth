@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ControlPanel from './ControlPanel';
+import HandleSoftKeys from './HandleSoftKeys';
 
 var WaveShapes = {
     SINE: 'sine',
@@ -41,6 +42,7 @@ export default class MidiInput extends Component {
             outputs: '',
             controlState: '',
             audioData: '',
+            useQwerty: false,
         };
     }
 
@@ -57,7 +59,7 @@ export default class MidiInput extends Component {
 
         this.noiseBufferInit();
         this.filterInit();
-        this.rafId = requestAnimationFrame(() => {this.tick()});
+        this.rafId = requestAnimationFrame(() => { this.tick() });
     }
 
     componentWillUnmount() {
@@ -70,7 +72,7 @@ export default class MidiInput extends Component {
         this.setState({
             audioData: this.dataArray,
         });
-        this.rafId = requestAnimationFrame(() => {this.tick()});
+        this.rafId = requestAnimationFrame(() => { this.tick() });
     }
 
     filterInit() {
@@ -133,19 +135,21 @@ export default class MidiInput extends Component {
     }
 
     startOscillate = (note, velocity) => {
-        let adsr = {
-            "a": this.state.controlState.envelope.attack / 1000,
-            "d": this.state.controlState.envelope.decay / 1000,
-            "s": this.state.controlState.envelope.sustain / 1000,
-            "r": this.state.controlState.envelope.release / 1000,
-            "sustain": this.state.controlState.envelope.sustain / 1000,
-            "ct": this.ac.currentTime
+        if (note) {
+            let adsr = {
+                "a": this.state.controlState.envelope.attack / 1000,
+                "d": this.state.controlState.envelope.decay / 1000,
+                "s": this.state.controlState.envelope.sustain / 1000,
+                "r": this.state.controlState.envelope.release / 1000,
+                "sustain": this.state.controlState.envelope.sustain / 1000,
+                "ct": this.ac.currentTime
+            }
+            if (this.activeNotes === 1) {
+                this.noiseBuffer.connect(this.noiseGain);
+            }
+            this.startOscillatorInd(note, 1, adsr);
+            this.startOscillatorInd(note, 2, adsr);
         }
-        if (this.activeNotes === 1) {
-            this.noiseBuffer.connect(this.noiseGain);
-        }
-        this.startOscillatorInd(note, 1, adsr);
-        this.startOscillatorInd(note, 2, adsr);
     }
 
     startOscillatorInd = (note, oscInd, adsr) => {
@@ -183,6 +187,8 @@ export default class MidiInput extends Component {
         return (
             <div>
                 <button onClick={() => { this.ac.resume() }}>thing</button>
+                <input type="checkbox" value={this.state.useQwerty} onChange={() => this.setState({ useQwerty: !this.state.useQwerty })} />Use Keyboard
+                {this.state.useQwerty ? <HandleSoftKeys playNote={this.startOscillate} /> : <></>}
                 <ControlPanel updateParent={this.setValue} waves={WaveShapes} filters={FilterTypes} lfoTargets={LFOTarget} audioData={this.state.audioData} />
             </div>
         );
